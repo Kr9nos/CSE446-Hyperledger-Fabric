@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./styles.css">
+
+    <title>FabCar Using Hyperledger Fabric</title>
+</head>
+<body>
+
+    <div class="text-center form-container">
+        <h3 >Login User</h3>
+        <form id="updateForm" action="" name="updateOwner">
+            <div>
+                <label for="">NID/Key</label>
+                <input name="key" />
+            </div>
+            
+            <div>
+                <label for="">Email</label>
+                <input name="email" />
+            </div>
+
+            <div>
+                <label for="">Password </label>
+                <input name="pass" />
+            </div>
+
+            <div>
+                <button type="submit">Login</button>
+            </div>
+        </form>
+        
+    </div>
+    
+    <script>
+
+        // CREATING NEW CAR
+       
+        // UPDATE: CHANGING CAR OWNER
+        const updateForm = document.getElementById('updateForm')
+
+        // THIS IS AN EVENT LISTENER WHICH WILL RUN WHEN WE CLICK THE UPDATE BUTTON
+        updateForm.addEventListener("submit", function(event) {
+            event.preventDefault()
+            const bodyParam = new URLSearchParams( new FormData(updateForm) )
+            
+                //CALLING UPDATE API
+                fetch('http://localhost:3000/userlogin', {
+                    method: 'POST',
+                    body: bodyParam
+                })
+                .then(res => {
+                    if(res.status !== 200){
+                        alert('Unable to login')
+                        return
+                    }
+                    window.location.replace('http://127.0.0.1:5500/fabcar/fabcar-client/user.html')
+                    return res.json()
+                })
+                .then( parsedRes => {
+                    alert( parsedRes.message )
+                    getAll()
+                })
+                .catch(err => {
+                    alert(err.message)
+                    console.error({ err })
+                })
+        });
+
+        
+    </script>
+</body>
+</html>

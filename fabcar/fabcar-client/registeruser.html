@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./styles.css">
+
+    <title>FabCar Using Hyperledger Fabric</title>
+</head>
+
+<body>
+<div class="text-center form-container">
+    <h3 >User Registration</h3>
+    <form id="createForm" action="" name="createCar">
+        <div>
+            <label for="">NID/Key</label>
+            <input name="key" />
+        </div>
+        
+        <div>
+            <label for="">Email</label>
+            <input name="email" />
+        </div>
+
+        <div>
+            <label for="">Password</label>
+            <input name="pass" />
+        </div>
+        <div>
+            <button type="submit">Create</button>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    // CREATING NEW CAR
+    const createForm = document.getElementById('createForm')
+
+    // THIS IS AN EVENT LISTENER WHICH WILL RUN WHEN WE CLICK THE CREATE BUTTON
+    createForm.addEventListener("submit", function(event) {
+        event.preventDefault()
+        const bodyParam = new URLSearchParams( new FormData(createForm) )
+        
+            //CALLING CREATE API
+            fetch('http://localhost:3000/createUser', {
+                method: 'POST',
+                body: bodyParam
+            })
+            .then(res => {
+                return res.json()
+            })
+            .then( parsedRes => {
+                alert(parsedRes.message)
+            })
+            .catch(err => {
+                console.error({ err })
+            })
+    });
+</script>
+
+</body>
+</html>
